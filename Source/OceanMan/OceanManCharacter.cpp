@@ -5,7 +5,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "GameFramework/Controller.h"
+#include "OceanController.h"
 #include "GameFramework/SpringArmComponent.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -42,8 +42,10 @@ AOceanManCharacter::AOceanManCharacter()
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
-	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
-	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
+
+  // declare overlap events
+	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &AOceanManCharacter::OnOverlapBegin);
+	GetCapsuleComponent()->OnComponentEndOverlap.AddDynamic(this, &AOceanManCharacter::OnOverlapEnd);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -55,6 +57,8 @@ void AOceanManCharacter::SetupPlayerInputComponent(class UInputComponent* Player
 	check(PlayerInputComponent);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+
+	PlayerInputComponent->BindAction("ActivateShip", IE_Pressed, this, &AOceanManCharacter::ActivateShip);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AOceanManCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AOceanManCharacter::MoveRight);
@@ -69,7 +73,13 @@ void AOceanManCharacter::SetupPlayerInputComponent(class UInputComponent* Player
 
 }
 
-
+void AOceanManCharacter::ActivateShip() {
+	if (atWheel)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Trying to activate ship"));
+		Cast<AOceanController>(GetController())->switchControlledObject();
+	}
+}
 
 void AOceanManCharacter::TurnAtRate(float Rate)
 {
@@ -83,6 +93,21 @@ void AOceanManCharacter::LookUpAtRate(float Rate)
 	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
 }
 
+void AOceanManCharacter::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Overlap Event"));
+	if (OtherActor == box)
+	{
+		atWheel = true;;
+	}
+}
+void AOceanManCharacter::OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if (OtherActor == box)
+	{
+		atWheel = false;;
+	}
+}
 void AOceanManCharacter::MoveForward(float Value)
 {
 	if ((Controller != NULL) && (Value != 0.0f))

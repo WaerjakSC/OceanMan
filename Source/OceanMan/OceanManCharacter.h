@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Engine/TriggerBox.h"
+#include "Ship.h"
 #include "OceanManCharacter.generated.h"
 
 UCLASS(config=Game)
@@ -29,8 +31,13 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
+	UPROPERTY(EditAnywhere, Category = Ship)
+		ATriggerBox* box;
+		UPROPERTY(EditAnywhere)
+	AShip *ship;
 protected:
 
+	bool atWheel{ false };
 	
 	/** Called for forwards/backward input */
 	void MoveForward(float Value);
@@ -44,13 +51,20 @@ protected:
 	 */
 	void TurnAtRate(float Rate);
 
+	void ActivateShip();
+
 	/**
 	 * Called via input to turn look up/down at a given rate. 
 	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
 	 */
 	void LookUpAtRate(float Rate);
 
-
+	// declare overlap begin function
+	UFUNCTION()
+		void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	// declare overlap end function
+	UFUNCTION()
+		void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 protected:
 	// APawn interface

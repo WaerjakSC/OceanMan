@@ -3,13 +3,14 @@
 #include "OceanManGameMode.h"
 #include "OceanManCharacter.h"
 #include "UObject/ConstructorHelpers.h"
-
+#include "OceanController.h"
 AOceanManGameMode::AOceanManGameMode()
 {
 	// set default pawn class to our Blueprinted character
-	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/ThirdPersonCPP/Blueprints/ThirdPersonCharacter"));
+	static ConstructorHelpers::FClassFinder<AOceanManCharacter> PlayerPawnBPClass(TEXT("/Game/Blueprints/Player/BP_OceanManCharacter"));
 	if (PlayerPawnBPClass.Class != NULL)
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
+	PlayerControllerClass = AOceanController::StaticClass();
 }
