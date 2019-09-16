@@ -74,11 +74,6 @@ void AOceanManCharacter::SetupPlayerInputComponent(class UInputComponent* Player
 }
 
 void AOceanManCharacter::ActivateShip() {
-	if (atWheel)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Trying to activate ship"));
-		Cast<AOceanController>(GetController())->switchControlledObject();
-	}
 }
 
 void AOceanManCharacter::TurnAtRate(float Rate)
@@ -95,18 +90,11 @@ void AOceanManCharacter::LookUpAtRate(float Rate)
 
 void AOceanManCharacter::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Overlap Event"));
-	if (OtherActor == box)
-	{
-		atWheel = true;;
-	}
+	
 }
 void AOceanManCharacter::OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	if (OtherActor == box)
-	{
-		atWheel = false;;
-	}
+
 }
 void AOceanManCharacter::MoveForward(float Value)
 {

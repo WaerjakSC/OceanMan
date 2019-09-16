@@ -19,10 +19,7 @@ public:
 	AOceanController();
 
 	void BeginPlay() override;
-	void switchControlledObject();
 
-	UPROPERTY(EditAnywhere)
-	APawn *ship;
 private:
 	UPROPERTY(EditAnywhere)
 		AOceanManCharacter *playerCharacter;
