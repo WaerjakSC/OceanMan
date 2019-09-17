@@ -33,7 +33,6 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = Ship)
 	ATriggerBox *box;
-
 protected:
 	bool atWheel{false};
 

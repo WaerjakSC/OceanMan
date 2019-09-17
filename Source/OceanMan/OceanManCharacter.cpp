@@ -75,7 +75,6 @@ void AOceanManCharacter::SetupPlayerInputComponent(class UInputComponent* Player
 
 void AOceanManCharacter::ActivateShip() {
 }
-
 void AOceanManCharacter::TurnAtRate(float Rate)
 {
 	// calculate delta for this frame from the rate information
