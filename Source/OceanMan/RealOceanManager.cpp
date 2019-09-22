@@ -59,7 +59,7 @@ FVector ARealOceanManager::CalculateGerstnerWave(float wavelength, float amplitu
 
 	FVector2D rotatedDirection = FVector2D(dir.X, dir.Y);
 
-	float wavePhase = lambda * FVector2D::DotProduct(rotatedDirection, position) * (time + phase);
+	float wavePhase = lambda * FVector2D::DotProduct(rotatedDirection, position) + (time + phase);
 
 	float c = FMath::Cos(wavePhase);
 	float s = FMath::Sin(wavePhase);
