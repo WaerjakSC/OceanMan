@@ -74,5 +74,3 @@ Plugins/*/Intermediate/*
 DerivedDataCache/*
 *.json
 *.code-workspace
-
-*.uproject
