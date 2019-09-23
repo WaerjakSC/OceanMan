@@ -1,6 +1,5 @@
 #include "Boat.h"
 #include "Components/InputComponent.h"
-#include "WheeledVehicleMovementComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/StaticMeshComponent.h"
@@ -14,10 +13,10 @@ ABoat::ABoat()
 	PrimaryActorTick.bCanEverTick = true;
 	boatMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BOAT"));
 	RootComponent = boatMesh;
-	GetMesh()->SetEnableGravity(false);
-	GetMesh()->SetupAttachment(RootComponent);
+	// GetMesh()->SetEnableGravity(false);
+	// GetMesh()->SetupAttachment(RootComponent);
 
-	UWheeledVehicleMovementComponent *movementComponent = GetVehicleMovementComponent();
+	// UWheeledVehicleMovementComponent *movementComponent = GetVehicleMovementComponent();
 
 	// Create a camera boom (pulls in towards the player if there is a collision)
 	cameraArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraArm"));

@@ -3,14 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "WheeledVehicle.h"
 #include "Boat.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class OCEANMAN_API ABoat : public AWheeledVehicle
+class OCEANMAN_API ABoat : public AActor
 {
 	GENERATED_BODY()
 
